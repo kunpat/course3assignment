@@ -15,35 +15,43 @@ activityLabels <- read.csv("activity_labels.txt", sep = "", header=FALSE) #activ
 #to merge data into one single data frame you have to merge train and test into its own data frame. each data frame 
 #will have 3 columns....xtrain, ytrain or "y", and subject. 
 #we will relable ytest, ytrain, xtrainSubject, and XtestSubject to prevent confusion
-colnames(ytrain) <- "y"
-colnames(ytest) <- "y"
-colnames(Xtraindata_subject) <- "subject"
-colnames (Xtestdata_subject) <- "subject"
-TrainDataFrame <- cbind(Xtrain,ytrain, Xtraindata_subject)
-TestDataFrame <- cbind(Xtest, ytest, Xtestdata_subject)
-
+colnames(ytrain) <- "Activity"
+colnames(ytest) <- "Activity"
+colnames(Xtraindata_subject) <- "Subject"
+colnames (Xtestdata_subject) <- "Subject"
+#TrainDataFrame <- cbind(Xtrain,ytrain, Xtraindata_subject)
+#TestDataFrame <- cbind(Xtest, ytest, Xtestdata_subject)
+#colnames(TrainDataFrame)
+#colnames(TestDataFrame)
+#next lines create two column DF that stores ytrain and ytest and subjects data
+ytrain_subject <- cbind(ytrain, Xtraindata_subject)
+ytest_subject <- cbind(ytest, Xtestdata_subject)
+yCombined <- rbind(ytrain_subject, ytest_subject)#combines into one data frame of 2 columns for later use
+dim(yCombined)
 #---------------------------------1 combine data set-----------------------------------------------------------------------------
 #this now merges the two seperate dataframe(test and train) into one single data frame using row combine. 
-CombinedData <- rbind(TrainDataFrame, TestDataFrame)
-
+CombinedData <- rbind(Xtrain, Xtest)
+str(CombinedData)
 #---------------------------------2 print mean + std from each measurement-----------------------------------------------------------------------------
-meanIndex <- grep("mean()", features$V2)
-stdIndex <- grep("std()", features$V2)
-CombinedData[, meanIndex] #prints all columns that're mean
-CombinedData[,stdIndex] #prints all columns that're standard devision
+meanstdIndex <- grep(paste("mean|std"), features$V2)
+meanstdIndex #indexs of where mean and std are found
+#stdIndex <- grep("std", features$V2)
+CombinedData <- CombinedData[ ,meanstdIndex] #prints all columns that're mean and std
+
+#now lets add the "y" and subject columns using cbind
+CombinedData <- cbind(CombinedData, yCombined) #this adds new columns Activity and Subject at end
+names(CombinedData)
 
 #---------------------------------3 label each activity-----------------------------------------------------------------------------
 #this next line assigns activity labels to each activity in column "y" of the data
 #activity and their lable is pulled from activityLables data
-CombinedData$y <- factor(CombinedData$y, activityLabels$V1, labels  = activityLabels$V2)
-
+CombinedData$Activity <- factor(CombinedData$Activity, activityLabels$V1, labels  = activityLabels$V2)
+head(CombinedData$Activity)
 #---------------------------------4 labeling variable names-----------------------------------------------------------------------------
 #this function labels the columns using the data in features.txt. The V2 column holds the features. 
-colnames(CombinedData) <- features$V2
-colnames(CombinedData)
-names(CombinedData)[562] <- "Activity" # applying above removes names for last 2 columns so we relable here
-names(CombinedData)[563] <- "Subject"
-head(CombinedData$Activity)
+#we have to find the location of mean and std in the features and then use it to pull the names located in V2 column of features. 
+names(CombinedData) <- features$V2[grep(paste("mean|std"), features$V2)]
+colnames(CombinedData)[80:81] <- c("Activity", "Subject") #assign the last two columns again since it was erased by above line
 names(CombinedData)
 
 #---------------------------------5 new tidy data with average-----------------------------------------------------------------------------
