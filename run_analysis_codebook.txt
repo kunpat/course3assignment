@@ -1,0 +1,21 @@
+Since instruction was not clear about grouping I created 3 tidySets. One grouped by Activity, second by Subject, and third by Activity&Subject. 
+
+This codebook explains the variables in tidySet_byActivity.txt, tidySet_bySubject.txt, and TidySet_byActivitySubject.txt
+
+The output of TidySet_ByActivity contains total of 6 rows of data by 562 columns. This output is grouped by "Activity" which is total of 6
+Activity variable: The first column contains the "Activity" being performed when data was collected. The Activity can consist of following WALKING, WALKING_UPSTAIS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING
+Columan 2-562 contains the features(signals). The data contained in each column is "mean" for each activity for that specific feature. 
+
+
+The output of TidySet_BySubject contains total of 30 rows of data by 562 columns. This output is grouped by "Subject" which is total of 30.
+Subject variable: The first column contains the "Subject" the data was collected from. Total of 30 subjects were used. 
+Columan 2-562 contains the features(signals). The data contained in each column is "mean" for each subject for that specific feature. 
+
+
+The output of TidySet_ByActivitySubject contains total of 180 rows of data by 563 columns. This output is grouped by Activity and "Subject" which is total of 180 rows. Each Subject has 6 activities. 30 Subject and 6 Activities gives us 180 average for each feature.
+The data is grouped by two variable(subject and activity). Each subject has 6 activities. The feature columns provide average for each subject per activity. 
+First column "Activity" contains the activity the person was performing when "feature" data was collected. In this case we get average of the features. 
+Second column "Subject" contains the person that was performing the activity. 
+
+
+
