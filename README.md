@@ -1,4 +1,4 @@
-This readme is written for Course #3 or "Getting and Cleaning Course" project. The project requires data to be downloaded from following ULR:
+This readme is written for Course #3 or "Getting and Cleaning Course" project. The project requires data to be downloaded from following URL:
 https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
 The data is structured with root folder containing readme.txt and other text files with information on the data variables. The measurement data is contained in folders
